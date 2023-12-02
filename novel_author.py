@@ -10,12 +10,13 @@ API_KEY = os.environ['OPENAI_API_KEY']
 client = OpenAI(api_key=API_KEY)
 
 # 스레드 ID 하나로 관리하기
-# if 'thread_id' not in st.session_state:
-#     thread = client.beta.threads.create()
-#     st.session_state.thread_id = thread.id
+if 'thread_id' not in st.session_state:
+    thread = client.beta.threads.create()
+    st.session_state.thread_id = thread.id
 
 assistant_id = "asst_F1QX8BTLh5DBirDQ9RoEbwxP"
-thread_id = "thread_XJFOUcYAVM0hBTtdWve56Brl"
+# thread_id = "thread_XJFOUcYAVM0hBTtdWve56Brl"
+thread_id = st.session_state.thread_id
 
 # 메세지 모두 역순으로 불러오기
 thread_messages = client.beta.threads.messages.list(thread_id, order="asc")
@@ -31,14 +32,14 @@ for msg in thread_messages.data:
 prompt = st.chat_input("물어보고 싶은 것을 입력하세요!")
 
 if prompt:
-    # 입력 내용에 대한 메세지 저장
+    # 입력 내용에 대한 메세지 생성 후 저장
     message = client.beta.threads.messages.create(
         thread_id = thread_id,
         role = "user",
         content = prompt
     )
 
-    # 해당 메세지 UI에 표시
+    # 생성된 메세지 UI에 표시
     with st.chat_message(message.role):
         st.write(message.content[0].text.value)
 
@@ -48,14 +49,15 @@ if prompt:
         assistant_id=assistant_id,
     )
 
-    # RUN completed 되었나 1초마다 체크
-    while run.status != "completed":
-        print("status 확인 중", run.status)
-        time.sleep(1)
-        run = client.beta.threads.runs.retrieve(
-            thread_id=thread_id,
-            run_id=run.id
-        )
+    with st.spinner('응답 기다리는 중...'):
+        # RUN completed 되었나 1초마다 체크
+        while run.status != "completed":
+            print("status 확인 중", run.status)
+            time.sleep(1)
+            run = client.beta.threads.runs.retrieve(
+                thread_id=thread_id,
+                run_id=run.id
+            )
     
     # RUN completed 되어 메세지 불러오기
     messages = client.beta.threads.messages.list(
