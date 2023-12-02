@@ -6,6 +6,8 @@ import time
 
 load_dotenv()
 API_KEY = os.environ['OPENAI_API_KEY']
+NOVEL_AUTHOR_ASST = os.environ['NOVEL_AUTHOR_ASST']
+NOVEL_AUTHOR_THREAD_1 = os.environ['NOVEL_AUTHOR_THREAD_1']
 
 client = OpenAI(api_key=API_KEY)
 
@@ -14,8 +16,8 @@ if 'thread_id' not in st.session_state:
     thread = client.beta.threads.create()
     st.session_state.thread_id = thread.id
 
-assistant_id = "asst_F1QX8BTLh5DBirDQ9RoEbwxP"
-# thread_id = "thread_XJFOUcYAVM0hBTtdWve56Brl"
+assistant_id = NOVEL_AUTHOR_ASST
+# thread_id = NOVEL_AUTHOR_THREAD_1
 thread_id = st.session_state.thread_id
 
 # 메세지 모두 역순으로 불러오기
