@@ -1,2 +1,6 @@
-# private Key
+# misc
+.DS_Store
 .env
+
+# node
+/jocoding/chat_doge/node_modules
