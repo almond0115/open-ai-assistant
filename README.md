@@ -1,1 +1,2 @@
-# open-ai-assistant
+# Open AI Assistant API
+
