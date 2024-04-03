@@ -24,8 +24,8 @@ app.get('/', function(req,res) {
 // POST method route
 app.post('/fortuneTell', async function (req, res) {
     let { myDateTime, userMessage, threadId } = req.body
-    let todayDateTime = new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
-    const assistantId = "asst_GfRet3xLPkGF7HMOudQaIF3V"
+    let todayDateTime = new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })
+    const assistantId = process.env.CHAT_DOGE_ASST
 
     if (threadId == '') {
         const emptyThread = await openai.beta.threads.create();
