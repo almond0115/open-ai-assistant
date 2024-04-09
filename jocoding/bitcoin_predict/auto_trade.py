@@ -1,8 +1,20 @@
+import os
+from dotenv import load_dotenv
+load_dotenv()
+from openai import OpenAI
 import pyupbit
 
-access = "1WOAdsCcUZzXTxxbazQkljLh56yTMhSUwjsagMFv"         
-secret = "GfiGD36aC6xhcg9PNHPrxhlAlAPx7VSDRJajo9Va"
-upbit = pyupbit.Upbit(access, secret)
+# openai & upbit api test 
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+upbit = pyupbit.Upbit(os.getenv("UPBIT_ACCESS_KEY"), os.getenv("UPBIT_SECRET_KEY"))
 
-print(upbit.get_balance("KRW-XRP"))     # KRW-XRP 조회
+completion = client.chat.completions.create(
+  model="gpt-3.5-turbo",
+  messages=[
+    {"role": "system", "content": "You are a helpful assistant."},
+    {"role": "user", "content": "Hello!"}
+  ]
+)
+
+print(completion.choices[0].message)
 print(upbit.get_balance("KRW"))         # 보유 현금 조회
