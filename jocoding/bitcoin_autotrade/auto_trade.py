@@ -24,6 +24,8 @@ upbit = pyupbit.Upbit(os.getenv("UPBIT_ACCESS_KEY"), os.getenv("UPBIT_SECRET_KEY
 # print(completion.choices[0].message)
 # print(upbit.get_balance("KRW"))         # 보유 현금 조회
 
+
+
 def get_current_status():
     orderbook = pyupbit.get_orderbook(ticker="KRW-BTC")
     # 호가창 기준으로 현재 TimeStamp를 가져옴
