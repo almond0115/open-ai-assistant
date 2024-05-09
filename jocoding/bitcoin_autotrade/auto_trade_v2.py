@@ -250,7 +250,6 @@ def analyze_data_with_gpt4(news_data, data_json, last_decisions, fear_and_greed,
             print("No instructions found.")
             return None
         
-        current_status = get_current_status()
         response = client.chat.completions.create(
             model="gpt-4-turbo-preview",
             messages=[
@@ -348,7 +347,6 @@ def make_decision_and_execute():
                 print(f"JSON parsing failed: {e}. Retrying in {retry_delay_seconds} seconds...")
                 time.sleep(retry_delay_seconds)
                 print(f"Attempt {attempt + 2} of {max_retries}")
-        
         if not decision:
             print("Failed to make a decision after maximum retries.")
             return
@@ -373,11 +371,12 @@ if __name__ == "__main__":
 
     # v2
     initialize_db()
-
-    # schedule.every().day.at("00:01").do(make_decision_and_execute)
-    # schedule.every().day.at("08:01").do(make_decision_and_execute)
-    # schedule.every().day.at("16:01").do(make_decision_and_execute)
-    schedule.every().minute.at(":01").do(make_decision_and_execute)
+    make_decision_and_execute()
+    
+    schedule.every().day.at("00:01").do(make_decision_and_execute)
+    schedule.every().day.at("08:01").do(make_decision_and_execute)
+    schedule.every().day.at("16:01").do(make_decision_and_execute)
+    # schedule.every().minute.at(":01").do(make_decision_and_execute)
 
     while True:
       schedule.run_pending()
