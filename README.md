@@ -1,2 +1,2 @@
-# Open AI Assistant API
+# Toy Project with AI
 

@@ -347,6 +347,9 @@ def make_decision_and_execute():
                 print(f"JSON parsing failed: {e}. Retrying in {retry_delay_seconds} seconds...")
                 time.sleep(retry_delay_seconds)
                 print(f"Attempt {attempt + 2} of {max_retries}")
+
+        print(decision)
+        
         if not decision:
             print("Failed to make a decision after maximum retries.")
             return
@@ -374,8 +377,9 @@ if __name__ == "__main__":
     make_decision_and_execute()
     
     schedule.every().day.at("00:01").do(make_decision_and_execute)
-    schedule.every().day.at("08:01").do(make_decision_and_execute)
-    schedule.every().day.at("16:01").do(make_decision_and_execute)
+    schedule.every().day.at("06:01").do(make_decision_and_execute)
+    schedule.every().day.at("12:01").do(make_decision_and_execute)
+    schedule.every().day.at("18:01").do(make_decision_and_execute)
     # schedule.every().minute.at(":01").do(make_decision_and_execute)
 
     while True:
